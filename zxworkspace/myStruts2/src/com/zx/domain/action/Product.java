@@ -5,7 +5,7 @@ public class Product {
 	
 	private Integer productId;
 	private String productName;
-	private String productDesc;
+	private String productDesc;//  
 	
 	private double productPrice;
 
