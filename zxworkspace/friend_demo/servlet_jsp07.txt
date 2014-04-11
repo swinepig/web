@@ -1,0 +1,223 @@
+1、文件上传
+	(1)在表单中，设置method="post",
+	enctype="multipart/form-data"。
+	<input type="file"/>
+	(2)在服务器端，不能再使用
+	request.getParameter()方法，而
+	要使用InputStream request.getInputStream()。
+	通过分析InputStream来获取数据。
+	enctype="multipart/form-data":
+	其作用是，告诉浏览器，
+	将表单中的数据不编码，直接以二进流的方式发送给
+	服务器。
+	使用apache的apache-fileuploader来分析二进制流。
+2、servlet的线程安全问题
+	(1)线程安全问题产生的原因
+	每一个请求到达，服务器会启动一个新的线程来处理
+	请求，有可能多个线程会访问同一个servlet实例，如果
+	对servlet实例的属性有修改操作，会产生线程安全问题。
+	(2)如何解决
+		A.加锁
+			一般使用synchronized对代码块加锁。
+		B.让servlet实现SingleThreadModel接口
+		该接口是一个标识接口，其作用是，服务器会
+		为每一个请求创建一个servlet实例。（不建议使用）
+		C.	尽量避免对servlet属性进行修改操作。
+
+3、jsp
+	(1)jsp是什么？
+	java server page java服务器端页面技术，其本质
+	是一个servlet，其作用是在服务器端动态生成页面。
+	其组成主要是html和少量的java代码。
+	(2)jsp的组成？
+		A.html(包括html标记、内容/css/js)	
+		B.java代码
+			java代码片断: <% java代码  %>
+			jsp表达式:<%=   %>
+			jsp声明:<%!   %>	
+		C.jsp隐含对象
+			直接使用，不需要声明和创建的一种对象。
+			out
+			request
+			response
+			session
+			application
+			config: ServletConfig实例
+			pageContext:
+				PageContext实例
+				jsp引擎会为每一个jsp实例分配唯一的一个
+				PageContext实例。
+				可以放置数据:
+					PageContext.setAttribute(String,Object)
+					Object PageContext.getAttribute(String)
+				访问其它八个隐含对象：
+			page
+				表示jsp实例本身
+			exception
+				jsp在运行过程当中，产生的错误会封装到该对象上。
+		D、指令
+			告诉jsp引擎，将.jsp转换成servlet源文件时，
+			做一些额外的处理。
+			<%@指令名 属性%>
+			<%@page import="java.util.*,java.text.*"%>:
+			其作用是，导包。
+			<%@page pageEncoding="utf-8" 
+			contentType="text/html;charset=utf-8"%>
+			pageEncoding: 告诉jsp引擎，.jsp源文件保存时，
+			所使用的编码。
+			contentType:相当于response.setContentType
+			errorPage:指定错误处理页面
+			isErrorPage:当前页面是否为错误处理页面,缺省值是false
+			session:true(缺省)/false,当前页面是否支持session。
+			isELIgnored:true(缺省)/false,是否忽略el表达式。
+			<%@include file=""%>
+			<%@taglib prefix="" uri=""%>:引入标签。
+		E、活动元素
+			在jsp已经运行了，让jsp引擎做一些额外的处理。
+			<jsp:include/>：一个jsp在运行过程当中，去调用
+			另外一个jsp。
+		F、注释：
+			<!--
+				注释内容
+			-->
+			注释内容如果是java代码，会执行，不会
+			在浏览器端输出。
+			
+			<%--
+				注释内容
+			-->
+			注释内容如果是java代码，不会执行，不会
+			在浏览器端输出。
+	(3)jsp如何执行的？
+		jsp引擎（server中的一个模块）会将.jsp
+		文件转换成servlet源文件，然后，再调用
+		其 service()方法。
+	(4)如何转换成servlet源文件
+		A、html --->放到service()方法里，使用out.write()输出。
+		B、java代码-->放到service()方法里，照搬。
+		C、jsp表达式--->放到serivce()方法里，使用print()输出。
+			
+4、mvc
+	(1)什么是mvc?
+	model view controller
+	是一种软件架构思想，将一个软件的组成部分划分成
+	三种不同类型的模块，分别是模型、视图和控制器。
+	模型：
+		封装了业务逻辑：
+			业务逻辑：包括业务逻辑本身的处理，还有
+			为保证业务逻辑能够正确处理所需要的事务	
+			、安全、日志、审核等等基础服务。
+			封装：业务逻辑实现以及对外提供的接口。
+	视图：
+		实现了表示逻辑：将模型中的数据以合适的方式
+		展现出来，另外，也提供合适的界面，用于输入。
+	控制器：
+		视图将请求交给控制器，控制器依据请求的不同，
+		调用合适的模型来处理；模型处理之后的结果给
+		控制器，控制器依据结果，选择合适的视图展现
+		给用户。
+		这样做的目的，是使得模型可以方便地
+		多个视图复用。	
+	(2)在web应用当中，如何使用mvc?
+		model:
+			使用java类来实现，或者是ejb,spring等容器
+			管理的javabean来实现（容器会提供部分
+			基础服务）。
+		view:
+			使用jsp(html,css,js)
+		controller:
+			使用servlet(或者filter)
+	(3)mvc的优势与缺点：
+		优点：
+			A.使得模型可以方便地	多个视图复用
+			B.模型方便测试（比如 servlet中包含的业务逻辑，
+			要测试的话，需要部署，启动服务器，通过浏览器
+			发送请求。将业务逻辑写在java类，只需要测试java类。
+			）
+			C.方便分工协作。
+		缺点：
+			mvc是一种思想，在做具体产品或者项目时，
+			需要设计（开发的复杂度增加）。
+			开发的周期变长，代码的维护量增加了。
+		总结：
+			如果产品或者项目需要代码的良好的可维护性、
+			可测试性、方便分工协作（一般是比较大型的项目）。
+			反之，没有必要用。
+	贷款申请：
+	
+	练习：
+		1、使用mvc来实现一个“买股票”
+		2、写一个“交友”网站
+			功能：
+				A.注册
+					注册的内容包含：username,name,pwd,age,sex,phone
+					验证码：验证码出错，不能注册。
+					注册成功：自动跳转到登录
+				B.登录
+					包含的内容：username,pwd
+					登录成功：跳转到主功能页面（即列出当前系统所有
+					已注册用户）。
+				C.主功能页面
+					1）列出所有已注册用户的信息（包含
+					username,sex,age）
+					2）点“详细”链接：
+						列出用户的name,phone
+						如果是当前用户（比如用户sdd登录了系统，
+						并且点击的链接也是sdd）,
+						则可以上传照片，上传之后，
+						会立即显示照片。
+						如是不是当前用户，则只能查看照片。
+			实现提示：
+				表：
+					create table friend_user(
+					id bigint primary key auto_increment,
+					username varchar(20) unique,
+					password varchar(10),
+					name varchar(20),
+					age int(3),
+					gendar varchar(1),
+					phone varchar(20));
+					
+					create table friend_pic(
+					id bigint primary key auto_increment,
+					picName varchar(100),
+					userId bigint);
+			注册：
+				除了以前要做的工作以外（验证码的处理，插入数据库）
+				为当前注册的用户创建一个存放上传照片
+				的文件夹在upload下面，建立一个文件夹
+				 pic_id（id是用户id号）
+			登录：
+				比较用户名与密码
+			主功能页面：
+				列出所有用户（略）
+				点“详细”链接：
+					上传文件是否显示（
+					即是否显示上传文件的那个表单）：
+						比较 session.getAttribute("id")是
+						否等于	user.getId()。如果相等，
+						是当前用户，可以上传。
+						<%
+							if(session.getAttribute("id") == user.getId){
+								%>
+								<form method="" enctype=""...
+								<%
+							}
+						%>
+					是否显示照片：
+						只要看session.getAttriubte("id")
+						是否存在。
+						如果id存在，说明用户已经登录过系统，可以查看。
+					
+					照片上传与显示：
+						当用户上传照片时，除了将照片文件
+						存放到相应的
+						文件夹下面以外，还要将照片的
+						文件名存放到friend_pic
+					
+			
+		
+		
+		
+			
+	

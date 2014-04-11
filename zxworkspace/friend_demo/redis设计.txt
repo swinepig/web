@@ -1,0 +1,15 @@
+用户User设计：
+
+使用String来存储单个User的信息
+User:ID:Field--key  
+
+使用String来存储User对象(序列化后)
+User:ID--key
+
+使用String--key NUM--value来存储用户数量
+User:Num
+
+
+
+
+
