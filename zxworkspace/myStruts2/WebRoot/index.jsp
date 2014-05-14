@@ -8,10 +8,12 @@
 </head>
 <body>
 	
-	<a href="product-input.action">Product Input</a>
+	<a href="product-input.do">Product Input</a>
 	
 	<br><br>
 	
 	<a href="test.action">Test</a>
+	
+	<a href="login_ui.do">Login</a>
 </body>
 </html>
