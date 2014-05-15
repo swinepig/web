@@ -4,6 +4,8 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+    <!--配置Struts可以受理的请求的扩展名在defalt.properties中struts.action.extension -->
+    <constant name="struts.action.extension" value="action,do"></constant>
 
 	<!--  
 		package: 包. struts2 使用 package 来组织模块. 
@@ -46,6 +48,18 @@
     		<result>/index.jsp</result>
     	</action>
     	
+    	<action name="login_ui">
+    		<result>/WEB-INF/pages/login.jsp</result>
+    	</action>
+    	
+    	<action name="user_login" class="com.zx.domain.action.UserAction">
+    		<result name="login-success" type="dispatcher">/WEB-INF/pages/login-success.jsp</result>
+    	</action>
+    	
+    	<action name="user_logout" class="com.zx.domain.action.UserAction" method="logOut">
+    		<result name="logout-success" type="dispatcher">/WEB-INF/pages/login-success.jsp</result>
+    	</action>
     </package>
+    
 
 </struts>
