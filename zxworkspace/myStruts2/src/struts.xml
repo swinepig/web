@@ -53,11 +53,11 @@
     	</action>
     	
     	<action name="user_login" class="com.zx.domain.action.UserAction">
-    		<result name="login-success">/WEB-INF/pages/login-success.jsp</result>
+    		<result name="login-success" type="dispatcher">/WEB-INF/pages/login-success.jsp</result>
     	</action>
     	
     	<action name="user_logout" class="com.zx.domain.action.UserAction" method="logOut">
-    		<result name="logout-success">/WEB-INF/pages/login-success.jsp</result>
+    		<result name="logout-success" type="dispatcher">/WEB-INF/pages/login-success.jsp</result>
     	</action>
     </package>
     
