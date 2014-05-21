@@ -14,10 +14,15 @@
 		request.setCharacterEncoding("UTF-8");
 	%>
 	
+	<s:debug></s:debug>
+	
 	ProductId: ${productId }
 	<br><br>
 
 	ProductName: ^<%= request.getAttribute("productName") %>
+	<br><br>
+	
+	ProductName: ^^<s:property value="[0].productName"/>
 	<br><br>
 	
 	ProductDesc: ${productDesc }
@@ -26,6 +31,8 @@
 	ProductPrice: ${productPrice }
 	<br><br>
 	
+	ProductPrice: ^<s:property value="[0].productPrice"/>
+	<br><br>
 	ProductPrice: ^<s:property value="productPrice"/>
 	<br><br>
 	

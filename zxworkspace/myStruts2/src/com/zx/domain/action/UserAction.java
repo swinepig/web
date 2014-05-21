@@ -2,6 +2,7 @@ package com.zx.domain.action;
 
 import java.util.Map;
 
+import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -30,6 +31,7 @@ public class UserAction implements SessionAware, ApplicationAware {
 		Password = password;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String logOut() {
 
 		Integer count = (Integer) application.get("count");
@@ -38,6 +40,14 @@ public class UserAction implements SessionAware, ApplicationAware {
 		} else {
 			count--;
 		}
+		
+		
+		//设置session失效
+		if(session instanceof SessionMap){
+			SessionMap sm=(SessionMap)session;
+			sm.invalidate();
+		}
+		
 		session.remove("UserName");
 		session.remove("Password");
 		application.put("count", count);

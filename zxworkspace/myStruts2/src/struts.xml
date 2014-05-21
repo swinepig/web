@@ -59,6 +59,33 @@
     	<action name="user_logout" class="com.zx.domain.action.UserAction" method="logOut">
     		<result name="logout-success" type="dispatcher">/WEB-INF/pages/login-success.jsp</result>
     	</action>
+    	
+    	<action name="testResult" class="com.zx.domain.action.ResultAction">
+    		<result name="dispater" type="dispatcher">/dispater.jsp</result>
+    		<result name="chain" type="chain">
+    			<param name="actionName">testAction</param>
+    			<param name="namespace">/atguigu</param>
+    		</result>
+    		<result name="redirct" type="redirect">/redirct.jsp</result>
+    		<result name="redirectAction" type="redirectAction">
+    			<param name="actionName">testAction</param>
+    			<param name="namespace">/atguigu</param>
+    		</result>
+    	</action>
+    	
+    	<!-- 通配符 -->
+    	<action name="wildcard-*" class="com.zx.domain.action.WildcardAction" method="{1}">
+    		<result name="{1}">/WEB-INF/wildcard/wildcard.jsp</result>
+    	</action>
+    	
+    	
+    </package>
+    
+    <package name="testPackage" namespace="/atguigu" extends="struts-default">
+    	<action name="testAction" 
+    		class="com.zx.domain.action.TestAction">
+    		<result>/WEB-INF/pages/login.jsp</result>
+    	</action>
     </package>
     
 

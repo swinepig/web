@@ -12,8 +12,22 @@
 	
 	<br><br>
 	
+	<a href="product-save.do">Product Save</a>
+	
+	<br><br>
+	
 	<a href="test.action">Test</a>
 	
 	<a href="login_ui.do">Login</a>
+	
+	<hr>
+	<a href="testResult.do?number=4">testResult</a>
+	
+	<br><br>
+	
+	<a href="wildcard-save.do">wildcard-save</a>
+	<a href="wildcard-update.do">wildcard-update</a>
+	<a href="wildcard-delete.do">wildcard-delete</a>
+	<a href="wildcard-query.do">wildcard-query</a>
 </body>
 </html>

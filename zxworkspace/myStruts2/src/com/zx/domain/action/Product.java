@@ -1,5 +1,8 @@
 package com.zx.domain.action;
 
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.util.ValueStack;
+
 
 public class Product {
 	
@@ -50,6 +53,15 @@ public class Product {
 	
 	public String save(){
 		System.out.println("save: " + this);
+		
+		ValueStack stack=ActionContext.getContext().getValueStack();
+		
+		TestProduct test = new TestProduct();
+		test.setProductDesc("china");
+		test.setProductId(11034);
+		
+		stack.push(test);
+		
 		return "details";
 	}
 	
